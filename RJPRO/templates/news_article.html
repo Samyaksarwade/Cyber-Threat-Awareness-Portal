@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ article.title }} - Cyber Security News</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/news.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/article.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="article-container">
+        <article class="news-article">
+            <header class="article-header">
+                <div class="article-meta">
+                    <span class="article-date">{{ article.date }}</span>
+                    <span class="article-categories">
+                        {% for category in article.categories %}
+                            <span class="category-tag">{{ category }}</span>
+                        {% endfor %}
+                    </span>
+                </div>
+                <h1 class="article-title">{{ article.title }}</h1>
+            </header>
+
+            <div class="article-image">
+                <img src="{{ url_for('static', filename='images/news/' + article.image) }}" alt="{{ article.title }}">
+            </div>
+
+            <div class="article-content">
+                {{ article.content | safe }}
+            </div>
+
+            <footer class="article-footer">
+                <a href="{{ url_for('news_page') }}" class="back-to-news">← Back to News</a>
+            </footer>
+        </article>
+    </div>
+</body>
+</html>

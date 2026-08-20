@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - CyberNation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: white;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #1a2a6c, #b21f1f);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav-auth {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link.login {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link.register {
+            background: white;
+            color: #1a2a6c;
+        }
+
+        .nav-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .cta-button {
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button.primary {
+            background: #ffd700;
+            color: #1a2a6c;
+        }
+
+        .cta-button.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .features {
+            padding: 4rem 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: #1a2a6c;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            color: #1a2a6c;
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            color: #666;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{{ url_for('index') }}" class="nav-brand">CyberNation</a>
+        <div class="nav-auth">
+            <a href="{{ url_for('login_page') }}" class="nav-link login">Login</a>
+            <a href="{{ url_for('register_page') }}" class="nav-link register">Register</a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <h1>Stay Safe in the Digital World</h1>
+        <p>Learn cybersecurity best practices, take interactive quizzes, and stay updated with the latest threats</p>
+        <div class="cta-buttons">
+            <a href="{{ url_for('register_page') }}" class="cta-button primary">Get Started</a>
+            <a href="{{ url_for('login_page') }}" class="cta-button secondary">Learn More</a>
+        </div>
+    </div>
+
+    <div class="features">
+        <div class="feature-card">
+            <i class="fas fa-shield-alt feature-icon"></i>
+            <h3 class="feature-title">Interactive Learning</h3>
+            <p class="feature-description">Engage with our interactive quizzes and tutorials to enhance your cybersecurity knowledge</p>
+        </div>
+
+        <div class="feature-card">
+            <i class="fas fa-globe feature-icon"></i>
+            <h3 class="feature-title">Real-time Threat Map</h3>
+            <p class="feature-description">Visualize global cyber threats and attacks in real time</p>
+        </div>
+
+        <div class="feature-card">
+            <i class="fas fa-newspaper feature-icon"></i>
+            <h3 class="feature-title">Latest News</h3>
+            <p class="feature-description">Stay updated with the latest cybersecurity news and trends</p>
+        </div>
+
+        <div class="feature-card">
+            <i class="fas fa-graduation-cap feature-icon"></i>
+            <h3 class="feature-title">Activity Track</h3>
+            <p class="feature-description">Track your daily activity and gain more knowledge about cyber threats</p>
+        </div>
+    </div>
+</body>
+</html>

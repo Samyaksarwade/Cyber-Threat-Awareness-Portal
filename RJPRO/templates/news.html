@@ -1,0 +1,512 @@
+{% extends "base.html" %}
+
+{% block title %}Cyber Security News{% endblock %}
+
+{% block styles %}
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-light: #4895ef;
+            --secondary-color: #3a0ca3;
+            --accent-color: #7209b7;
+            --success-color: #4cc9f0;
+            --danger-color: #f72585;
+            --warning-color: #f8961e;
+            --dark-color: #1a1a2e;
+            --light-color: #f8f9fa;
+            --gray-color: #6c757d;
+            --gray-light: #e9ecef;
+            --body-bg: #ffffff;
+            --card-bg: #ffffff;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --border-radius-sm: 4px;
+            --border-radius-md: 8px;
+            --transition-normal: all 0.3s ease;
+            
+            /* Dark mode colors */
+            --dark-bg: #111827;
+            --dark-surface: #1f2937;
+            --dark-surface-secondary: #374151;
+            --dark-text: #f9fafb;
+            --dark-text-secondary: #d1d5db;
+            --dark-border: #374151;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--body-bg);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        /* Navbar styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 2rem;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--gray-light);
+            margin-bottom: 0;
+        }
+
+        .nav-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 2rem;
+        }
+
+        .nav-menu li a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            transition: var(--transition-normal);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-menu li a:hover, .nav-menu li a.active {
+            color: var(--primary-color);
+        }
+
+        .nav-menu li a i {
+            font-size: 1.2rem;
+        }
+
+        .nav-profile {
+            margin-left: auto;
+        }
+
+        .nav-profile a {
+            font-size: 1.5rem;
+            color: var(--dark-color);
+            transition: var(--transition-normal);
+        }
+
+        .nav-profile a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Header styles */
+        .news-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 0;
+        }
+
+        .news-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .news-header p {
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
+            opacity: 0.9;
+        }
+
+        /* Search styles */
+        .search-container {
+            margin-bottom: 2.5rem;
+            position: relative;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            padding-left: 3rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: var(--border-radius-md);
+            font-size: 1rem;
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-normal);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-color);
+            font-size: 1.2rem;
+        }
+
+        /* News container */
+        .news-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Filter styles */
+        .news-filters {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .filter-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--gray-color);
+        }
+        
+        body.dark-mode .filter-label,
+        body.dark-mode label {
+            color: var(--dark-text-secondary);
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius-sm);
+            background-color: var(--card-bg);
+            color: var(--dark-color);
+            cursor: pointer;
+            transition: var(--transition-normal);
+            font-size: 0.9rem;
+        }
+        
+        body.dark-mode .filter-btn,
+        body.dark-mode select {
+            background-color: var(--dark-surface);
+            color: var(--dark-text);
+            border-color: var(--dark-border);
+        }
+
+        .filter-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .filter-btn:hover:not(.active) {
+            background-color: var(--gray-light);
+        }
+
+        /* Sort styles */
+        .sort-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sort-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--border-radius-sm);
+            background-color: var(--card-bg);
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        /* News content */
+        .news-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .news-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            border: 1px solid var(--gray-light);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        body.dark-mode .news-card {
+            background-color: var(--dark-surface);
+            border-color: var(--dark-border);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .news-image {
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .news-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .news-details {
+            padding: 1.25rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            font-size: 0.8rem;
+            color: var(--gray-color);
+        }
+        
+        body.dark-mode .news-meta {
+            color: var(--dark-text-secondary);
+        }
+
+        .news-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+            font-weight: 600;
+        }
+
+        .news-title a {
+            color: var(--dark-color);
+            text-decoration: none;
+            transition: var(--transition-normal);
+        }
+
+        .news-title a:hover {
+            color: var(--primary-color);
+        }
+        
+        body.dark-mode .news-title a {
+            color: var(--dark-text);
+        }
+        
+        body.dark-mode .news-title a:hover {
+            color: var(--primary-light);
+        }
+
+        .news-description {
+            color: var(--gray-color);
+            line-height: 1.6;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+        
+        body.dark-mode .news-description {
+            color: var(--dark-text-secondary);
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-decoration: none;
+            margin-top: auto;
+        }
+        
+        body.dark-mode .read-more {
+            color: var(--primary-light);
+        }
+
+        .read-more i {
+            font-size: 0.8rem;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .news-filters {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .navbar {
+                padding: 0.75rem 1rem;
+            }
+            
+            .nav-menu {
+                gap: 1rem;
+            }
+            
+            .news-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="news-header">
+        <h1>Cybersecurity News</h1>
+        <p>Stay updated with the latest cybersecurity news, threats, and industry developments</p>
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="Search for cybersecurity news..." id="newsSearch">
+        </div>
+    </div>
+
+    <div class="news-container">
+        <div class="news-filters">
+            <!-- <div class="filter-group">
+                <span class="filter-label">Filter by:</span>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All News</button>
+                    <button class="filter-btn" data-filter="threats">Threats</button>
+                    <button class="filter-btn" data-filter="privacy">Privacy</button>
+                    <button class="filter-btn" data-filter="security">Security</button>
+                    <button class="filter-btn" data-filter="technology">Technology</button>
+                </div>
+            </div> -->
+            <div class="sort-group">
+                <span class="filter-label">Sort by:</span>
+                <select id="sortNews" class="sort-select">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="relevance">Relevance</option>
+                </select>
+            </div>
+        </div>
+        <main class="news-content">
+            {% for article in news_articles %}
+            <article class="news-card">
+                <div class="news-image">
+                    <img src="{{ article.image_url }}" alt="{{ article.title }}">
+                </div>
+                <div class="news-details">
+                    <div class="news-meta">
+                        <span class="news-date">{{ article.date }}</span>
+                        <span class="news-categories">{{ article.categories | join(' / ') }}</span>
+                    </div>
+                    <h2 class="news-title">
+                        <a href="{{ article.url }}" target="_blank">{{ article.title }}</a>
+                    </h2>
+                    <p class="news-description">{{ article.description }}</p>
+                    <a href="{{ article.url }}" target="_blank" class="read-more">Read more <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </article>
+            {% endfor %}
+        </main>
+    </div>
+
+    <script>
+        // Search functionality
+        const searchInput = document.getElementById('newsSearch');
+        const newsCards = document.querySelectorAll('.news-card');
+        
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            
+            newsCards.forEach(card => {
+                const title = card.querySelector('.news-title').textContent.toLowerCase();
+                const description = card.querySelector('.news-description').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+        
+        // Filter functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // Add active class to clicked button
+                button.classList.add('active');
+                
+                const filter = button.getAttribute('data-filter');
+                
+                newsCards.forEach(card => {
+                    if (filter === 'all') {
+                        card.style.display = 'flex';
+                    } else {
+                        const categories = card.querySelector('.news-categories').textContent.toLowerCase();
+                        
+                        if (categories.includes(filter)) {
+                            card.style.display = 'flex';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    }
+                });
+            });
+        });
+        
+        // Sort functionality
+        const sortSelect = document.getElementById('sortNews');
+        const newsContent = document.querySelector('.news-content');
+        
+        sortSelect.addEventListener('change', () => {
+            const sortValue = sortSelect.value;
+            const newsCardsArray = Array.from(newsCards);
+            
+            if (sortValue === 'newest') {
+                newsCardsArray.sort((a, b) => {
+                    const dateA = new Date(a.querySelector('.news-date').textContent);
+                    const dateB = new Date(b.querySelector('.news-date').textContent);
+                    return dateB - dateA;
+                });
+            } else if (sortValue === 'oldest') {
+                newsCardsArray.sort((a, b) => {
+                    const dateA = new Date(a.querySelector('.news-date').textContent);
+                    const dateB = new Date(b.querySelector('.news-date').textContent);
+                    return dateA - dateB;
+                });
+            }
+            
+            // Re-append sorted cards
+            newsCardsArray.forEach(card => {
+                newsContent.appendChild(card);
+            });
+        });
+    </script>
+{% endblock %}

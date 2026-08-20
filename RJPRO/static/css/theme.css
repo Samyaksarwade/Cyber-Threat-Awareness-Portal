@@ -1,0 +1,158 @@
+/**
+ * Theme styles for RJPRO application
+ * Contains dark mode variables and styles
+ */
+
+:root {
+    /* Light mode variables */
+    --bg-color: #f5f7fa;
+    --surface-color: #ffffff;
+    --primary-color: #2563eb;
+    --secondary-color: #dc2626;
+    --accent-color: #f59e0b;
+    --text-color: #1f2937;
+    --text-secondary: #4b5563;
+    --border-color: #e5e7eb;
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    
+    /* Dark mode variables */
+    --dark-bg: #121212;
+    --dark-surface: #1e1e1e;
+    --dark-surface-secondary: #2d2d2d;
+    --dark-text: #e5e7eb;
+    --dark-text-secondary: #9ca3af;
+    --dark-border: #333333;
+    --dark-card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: var(--dark-bg);
+    color: var(--dark-text);
+}
+
+/* Navigation */
+body.dark-mode .navbar {
+    background-color: var(--dark-surface);
+    border-bottom: 1px solid var(--dark-border);
+}
+
+body.dark-mode .nav-link {
+    color: var(--dark-text);
+}
+
+body.dark-mode .nav-link:hover {
+    color: var(--primary-color);
+}
+
+/* Cards and Containers */
+body.dark-mode .card,
+body.dark-mode .container,
+body.dark-mode .grid-item,
+body.dark-mode .stat-card,
+body.dark-mode .action-btn,
+body.dark-mode .tip-item,
+body.dark-mode .notification-item {
+    background-color: var(--dark-surface);
+    color: var(--dark-text);
+    border-color: var(--dark-border);
+}
+
+/* Form Elements */
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea,
+body.dark-mode button {
+    background-color: var(--dark-surface-secondary);
+    color: var(--dark-text);
+    border-color: var(--dark-border);
+}
+
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+    color: var(--dark-text-secondary);
+}
+
+/* Tables */
+body.dark-mode table {
+    color: var(--dark-text);
+}
+
+body.dark-mode th,
+body.dark-mode td {
+    border-color: var(--dark-border);
+}
+
+body.dark-mode tr:nth-child(even) {
+    background-color: var(--dark-surface-secondary);
+}
+
+/* Modals and Dialogs */
+body.dark-mode .modal-content {
+    background-color: var(--dark-surface);
+    color: var(--dark-text);
+}
+
+body.dark-mode .modal-header,
+body.dark-mode .modal-footer {
+    border-color: var(--dark-border);
+}
+
+/* Dropdowns */
+body.dark-mode .dropdown-menu {
+    background-color: var(--dark-surface);
+    border-color: var(--dark-border);
+}
+
+body.dark-mode .dropdown-item {
+    color: var(--dark-text);
+}
+
+body.dark-mode .dropdown-item:hover {
+    background-color: var(--dark-surface-secondary);
+}
+
+/* Text and Typography */
+body.dark-mode h1, 
+body.dark-mode h2, 
+body.dark-mode h3, 
+body.dark-mode h4, 
+body.dark-mode h5, 
+body.dark-mode h6 {
+    color: var(--dark-text);
+}
+
+body.dark-mode p {
+    color: var(--dark-text-secondary);
+}
+
+body.dark-mode a {
+    color: var(--primary-color);
+}
+
+/* Scrollbars */
+body.dark-mode ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+body.dark-mode ::-webkit-scrollbar-track {
+    background: var(--dark-surface-secondary);
+}
+
+body.dark-mode ::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+}
+
+body.dark-mode ::-webkit-scrollbar-thumb:hover {
+    background: #777;
+}
+
+/* Transitions for smooth theme switching */
+body, 
+body.dark-mode,
+body *,
+body.dark-mode * {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}

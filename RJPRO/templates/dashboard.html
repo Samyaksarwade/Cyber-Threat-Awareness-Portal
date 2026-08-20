@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Cyber Security Awareness Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Add spacing between brand and nav items */
+        .nav-brand {
+            margin-right: 2rem;
+        }
+        .nav-menu {
+            gap: 2rem;
+            margin-left: 1rem;
+        }
+        /* Dark mode toggle styles */
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            margin-right: 1.5rem;
+        }
+        
+        .theme-toggle label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            color: white;
+        }
+        
+        .theme-toggle .toggle {
+            position: relative;
+            width: 48px;
+            height: 24px;
+            margin: 0 10px;
+        }
+        
+        .theme-toggle .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .theme-toggle .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.3);
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .theme-toggle .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        .theme-toggle input:checked + .slider {
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .theme-toggle input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">CyberNation</div>
+        <ul class="nav-menu">
+            <li><a href="{{ url_for('dashboard_page') }}" class="active"><i class="fas fa-home"></i> Home</a></li>
+            <li class="dropdown">
+                <a href="{{ url_for('quizzes_page') }}"><i class="fas fa-question-circle"></i> Quizzes</a>
+            
+            </li>
+            <li><a href="{{ url_for('videos_page') }}"><i class="fas fa-play-circle"></i> Videos</a></li>
+            <li class="dropdown">
+                <a href="{{ url_for('resources_page') }}"><i class="fas fa-book"></i> Resources</a>
+               
+            </li>
+            <li><a href="{{ url_for('threat_map_page') }}"><i class="fas fa-globe"></i> Threat Map</a></li>
+            <li><a href="{{ url_for('news_page') }}"><i class="fas fa-newspaper"></i> News</a></li>
+            <li><a href="https://www.virustotal.com/gui/home/url" target="_blank"><i class="fas fa-link"></i> URL Testing</a></li>
+        </ul>
+        <div class="theme-toggle">
+            <label>
+                <i class="fas fa-sun"></i>
+                <div class="toggle">
+                    <input type="checkbox" id="darkModeToggle">
+                    <span class="slider"></span>
+                </div>
+                <i class="fas fa-moon"></i>
+            </label>
+        </div>
+        <div class="nav-profile dropdown">
+            <a href="#" id="userProfile"><i class="fas fa-user-circle"></i></a>
+            <div class="dropdown-content">
+                <a href="{{ url_for('view_profile_page') }}"><i class="fas fa-user"></i> View Profile</a>
+                <a href="{{ url_for('edit_profile_page') }}"><i class="fas fa-user-edit"></i> Edit Profile</a>
+                <a href="{{ url_for('login_page') }}" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+            <div class="welcome-header">
+                <div>
+                    <h1>Welcome, <span id="userName">user</span>!</h1>
+                </div>
+                <div class="date-display">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span id="currentDate"></span>
+                </div>
+            </div>
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-icon-container">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Cyber Hygiene Score</h3>
+                        <p id="hygieneScore">85%</p>
+                        <span class="stat-trend positive"><i class="fas fa-arrow-up"></i> 5% from last week</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon-container">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Quizzes Completed</h3>
+                        <p id="quizCount">2</p>
+                        <span class="stat-label">Keep learning!</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon-container">
+                        <i class="fas fa-book-reader"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Articles Read</h3>
+                        <p id="articleCount">3</p>
+                        <span class="stat-label">Stay informed</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Grid -->
+        <div class="content-grid">
+
+            <!-- Security Tips Section -->
+            <section class="grid-item security-tips">
+                <h2><i class="fas fa-shield-alt"></i> Security Tips</h2>
+                <div id="securityTips" class="tips-container">
+                    <!-- Security tips will be inserted here via JavaScript -->
+                </div>
+            </section>
+
+            <!-- Quick Actions Section -->
+            <section class="grid-item quick-actions">
+                <h2><i class="fas fa-bolt"></i> Quick Actions</h2>
+                <div class="action-buttons">
+                    <button class="action-btn"><i class="fas fa-question-circle"></i> Take a Quiz</button>
+                    <button class="action-btn"><i class="fas fa-play"></i> Watch Video</button>
+                    <button class="action-btn" onclick="window.open(`https://www.virustotal.com/gui/home/url`, `_blank`)"><i class="fas fa-link"></i> Test URL Safety</button>
+                </div>
+            </section>
+
+        <!-- Notifications Section -->
+        <section class="grid-item notifications">
+            <h2><i class="fas fa-bell"></i> Notifications</h2>
+            <style>
+                .notifications {
+                    display: flex;
+                    flex-direction: column;
+                    height: 100%;
+                }
+                
+                #notificationsList {
+                    flex: 1;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+                    padding-right: 10px;
+                    margin-top: 15px;
+                    height: calc(100% - 40px); /* Subtract the height of the header */
+                }
+                
+                .notification-item {
+                    padding: 1.25rem;
+                    border-left: 4px solid;
+                    margin-bottom: 1.25rem;
+                    background: white;
+                    border-radius: 0 12px 12px 0;
+                    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+                    transition: all 0.3s ease;
+                    width: 100%;
+                    box-sizing: border-box;
+                    position: relative;
+                }
+                
+                .notification-item:hover {
+                    transform: translateX(5px);
+                }
+
+                .notification-item.new {
+                    border-left-color: #4CAF50;
+                }
+                
+                .notification-item.new::before {
+                    content: '';
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    width: 8px;
+                    height: 8px;
+                    background-color: #4CAF50;
+                    border-radius: 50%;
+                    animation: pulse 2s infinite;
+                }
+                
+                @keyframes pulse {
+                    0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.4); }
+                    70% { box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
+                    100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+                }
+
+                .notification-item.alert {
+                    border-left-color: #f44336;
+                }
+
+                .notification-item.info {
+                    border-left-color: #2196F3;
+                }
+
+                .notification-title {
+                    font-weight: 600;
+                    color: #1f2937;
+                    margin-bottom: 0.75rem;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.75rem;
+                    font-size: 1.1rem;
+                }
+                
+                .notification-title i {
+                    width: 32px;
+                    height: 32px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 50%;
+                    font-size: 1rem;
+                }
+                
+                .notification-item.new .notification-title i {
+                    background-color: rgba(76, 175, 80, 0.1);
+                    color: #4CAF50;
+                }
+                
+                .notification-item.alert .notification-title i {
+                    background-color: rgba(244, 67, 54, 0.1);
+                    color: #f44336;
+                }
+                
+                .notification-item.info .notification-title i {
+                    background-color: rgba(33, 150, 243, 0.1);
+                    color: #2196F3;
+                }
+
+                .notification-time {
+                    font-size: 0.8rem;
+                    color: #6b7280;
+                    margin-top: 0.5rem;
+                }
+
+                .notification-link {
+                    color: #2563eb;
+                    text-decoration: none;
+                    font-weight: 500;
+                    display: inline-block;
+                    margin-top: 0.5rem;
+                    transition: all 0.2s ease;
+                }
+
+                .notification-link:hover {
+                    color: #1d4ed8;
+                    transform: translateX(3px);
+                }
+                
+                /* Custom scrollbar for notifications */
+                #notificationsList::-webkit-scrollbar {
+                    width: 6px;
+                }
+                
+                #notificationsList::-webkit-scrollbar-track {
+                    background: rgba(0, 0, 0, 0.05);
+                    border-radius: 10px;
+                }
+                
+                #notificationsList::-webkit-scrollbar-thumb {
+                    background: rgba(0, 0, 0, 0.2);
+                    border-radius: 10px;
+                }
+                
+                #notificationsList::-webkit-scrollbar-thumb:hover {
+                    background: rgba(0, 0, 0, 0.3);
+                }
+            </style>
+            <div id="notificationsList">
+                <div class="notification-item new">
+                    <div class="notification-title">
+                        <i class="fas fa-file-alt"></i>
+                        New Case Study Added
+                    </div>
+                    <p>A new case study on "Recent Banking Trojan Attacks" has been added. Check it out!</p>
+                    <a href="{{ url_for('case_studies_page') }}" class="notification-link">View Case Study →</a>
+                    <div class="notification-time">2 hours ago</div>
+                </div>
+
+                <div class="notification-item alert">
+                    <div class="notification-title">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Urgent Security Alert
+                    </div>
+                    <p>New phishing campaign targeting banking customers detected. Learn how to stay safe.</p>
+                    <a href="{{ url_for('articles_page') }}" class="notification-link">Read Advisory →</a>
+                    <div class="notification-time">5 hours ago</div>
+                </div>
+
+                <div class="notification-item info">
+                    <div class="notification-title">
+                        <i class="fas fa-play-circle"></i>
+                        New Video Tutorial
+                    </div>
+                    <p>Watch our latest video on "Protecting Against Social Engineering Attacks"</p>
+                    <a href="{{ url_for('videos_page') }}" class="notification-link">Watch Video →</a>
+                    <div class="notification-time">1 day ago</div>
+                </div>
+
+                <div class="notification-item info">
+                    <div class="notification-title">
+                        <i class="fas fa-book"></i>
+                        Article Recommendation
+                    </div>
+                    <p>Based on your interests: "Top 10 Cybersecurity Best Practices for Remote Work"</p>
+                    <a href="{{ url_for('articles_page') }}" class="notification-link">Read Article →</a>
+                    <div class="notification-time">2 days ago</div>
+                </div>
+            </div>
+        </section>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script>
+        // Dark mode functionality
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const icon = darkModeToggle.querySelector('i');
+        
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+                localStorage.setItem('darkMode', null);
+            }
+        });
+    </script>
+    <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+</body>
+</html>

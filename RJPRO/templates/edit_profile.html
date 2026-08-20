@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile - CyberNation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #e74c3c;
+            --accent-color: #2ecc71;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --text-color: #333;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .edit-profile-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+        }
+
+        .edit-profile-header {
+            background: linear-gradient(135deg, #3a7bd5, #00d2ff);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .edit-profile-header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .edit-profile-header p {
+            margin: 10px 0 0;
+            opacity: 0.9;
+        }
+
+        .edit-profile-form {
+            padding: 30px;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .form-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .form-section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+            font-size: 1.2rem;
+        }
+
+        .form-section-title i {
+            color: var(--primary-color);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+
+        .form-group input, 
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-group input:focus, 
+        .form-group textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: #f1f2f6;
+            color: var(--dark-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: #dfe4ea;
+        }
+
+        .profile-image-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .profile-image-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+        }
+
+        .profile-image-info {
+            margin-top: 10px;
+            text-align: center;
+            color: #666;
+            font-style: italic;
+        }
+
+        .profile-image-upload {
+            flex: 1;
+        }
+
+        .upload-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #f1f2f6;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .upload-btn:hover {
+            background-color: #dfe4ea;
+        }
+
+        .upload-btn input {
+            display: none;
+        }
+
+        .error-message {
+            color: var(--secondary-color);
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .password-strength {
+            height: 5px;
+            background-color: #eee;
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .password-strength-meter {
+            height: 100%;
+            width: 0;
+            transition: width 0.3s, background-color 0.3s;
+        }
+
+        .password-strength-text {
+            font-size: 0.85rem;
+            margin-top: 5px;
+            color: #888;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-image-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .profile-image-preview {
+                margin: 0 auto;
+            }
+
+            .profile-image-upload {
+                width: 100%;
+                text-align: center;
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+ 
+    <div class="edit-profile-container">
+        <div class="edit-profile-header">
+            <h1>Edit Your Profile</h1>
+            <p>Update your personal information and preferences</p>
+        </div>
+
+        <div class="edit-profile-form">
+            <form id="editProfileForm">
+                <div class="form-section">
+                    <h3 class="form-section-title">
+                        <i class="fas fa-user"></i> Basic Information
+                    </h3>
+                    
+                    <div class="profile-image-section">
+                        <img src="{{ url_for('static', filename='images/avatars/user.png') }}" alt="Profile Picture" class="profile-image-preview">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" name="username" value="{{ profile.username }}" required>
+                            <div class="error-message" id="usernameError"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" value="{{ profile.email }}" required>
+                            <div class="error-message" id="emailError"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="jobTitle">Job Title</label>
+                            <input type="text" id="jobTitle" name="jobTitle" value="{{ profile.jobTitle }}" placeholder="e.g. Security Analyst">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="organization">Organization</label>
+                            <input type="text" id="organization" name="organization" value="{{ profile.organization }}" placeholder="e.g. Cyber Security Inc.">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="bio">Bio</label>
+                        <textarea id="bio" name="bio" placeholder="Tell us about yourself and your interest in cybersecurity...">{{ profile.bio }}</textarea>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3 class="form-section-title">
+                        <i class="fas fa-lock"></i> Security
+                    </h3>
+                    
+                    <div class="form-group">
+                        <label for="currentPassword">Current Password</label>
+                        <input type="password" id="currentPassword" name="currentPassword">
+                        <div class="error-message" id="currentPasswordError"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newPassword">New Password (leave blank if not changing)</label>
+                        <input type="password" id="newPassword" name="newPassword">
+                        <div class="password-strength">
+                            <div class="password-strength-meter" id="passwordStrengthMeter"></div>
+                        </div>
+                        <div class="password-strength-text" id="passwordStrengthText"></div>
+                        <div class="error-message" id="newPasswordError"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm New Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword">
+                        <div class="error-message" id="confirmPasswordError"></div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="window.location.href='/profile'">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProfileData();
+            setupFormSubmission();
+            setupPasswordStrengthMeter();
+        });
+
+        async function loadProfileData() {
+            try {
+                const response = await fetch('/api/profile', {
+                    headers: {
+                        'Authorization': `Bearer ${getCookie('token')}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('username').value = data.username;
+                    document.getElementById('email').value = data.email;
+                    
+                    // Set additional fields if available
+                    if (data.bio) {
+                        document.getElementById('bio').value = data.bio;
+                    }
+                    
+                    if (data.jobTitle) {
+                        document.getElementById('jobTitle').value = data.jobTitle;
+                    }
+                    
+                    if (data.organization) {
+                        document.getElementById('organization').value = data.organization;
+                    }
+                    
+                    // Set profile image if available
+                    if (data.profileImage) {
+                        document.getElementById('profileImagePreview').src = `/static/images/avatars/${data.profileImage}`;
+                    }
+                } else {
+                    window.location.href = '/login';
+                }
+            } catch (error) {
+                console.error('Error loading profile:', error);
+            }
+        }
+
+        function setupFormSubmission() {
+            const form = document.getElementById('editProfileForm');
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                clearErrors();
+
+                const formData = {
+                    username: document.getElementById('username').value,
+                    email: document.getElementById('email').value,
+                    bio: document.getElementById('bio').value,
+                    jobTitle: document.getElementById('jobTitle').value,
+                    organization: document.getElementById('organization').value,
+                    currentPassword: document.getElementById('currentPassword').value,
+                    newPassword: document.getElementById('newPassword').value,
+                    confirmPassword: document.getElementById('confirmPassword').value
+                };
+
+                // Validate passwords
+                if (formData.newPassword && formData.newPassword !== formData.confirmPassword) {
+                    showError('confirmPassword', 'Passwords do not match');
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/api/profile/update', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${getCookie('token')}`
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        window.location.href = '/profile';
+                    } else {
+                        if (data.errors) {
+                            Object.keys(data.errors).forEach(key => {
+                                showError(key, data.errors[key]);
+                            });
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error updating profile:', error);
+                }
+            });
+        }
+
+        function setupPasswordStrengthMeter() {
+            const passwordInput = document.getElementById('newPassword');
+            const strengthMeter = document.getElementById('passwordStrengthMeter');
+            const strengthText = document.getElementById('passwordStrengthText');
+            
+            passwordInput.addEventListener('input', () => {
+                const password = passwordInput.value;
+                let strength = 0;
+                let feedback = '';
+                
+                if (password.length > 0) {
+                    // Length check
+                    if (password.length >= 8) strength += 25;
+                    
+                    // Uppercase check
+                    if (/[A-Z]/.test(password)) strength += 25;
+                    
+                    // Lowercase check
+                    if (/[a-z]/.test(password)) strength += 25;
+                    
+                    // Number/special char check
+                    if (/[0-9!@#$%^&*(),.?":{}|<>]/.test(password)) strength += 25;
+                    
+                    // Set color based on strength
+                    let color = '';
+                    if (strength <= 25) {
+                        color = '#e74c3c';
+                        feedback = 'Weak';
+                    } else if (strength <= 50) {
+                        color = '#f39c12';
+                        feedback = 'Moderate';
+                    } else if (strength <= 75) {
+                        color = '#3498db';
+                        feedback = 'Good';
+                    } else {
+                        color = '#2ecc71';
+                        feedback = 'Strong';
+                    }
+                    
+                    strengthMeter.style.width = `${strength}%`;
+                    strengthMeter.style.backgroundColor = color;
+                    strengthText.textContent = feedback;
+                    strengthText.style.color = color;
+                } else {
+                    strengthMeter.style.width = '0';
+                    strengthText.textContent = '';
+                }
+            });
+        }
+
+        function showError(field, message) {
+            const errorElement = document.getElementById(`${field}Error`);
+            if (errorElement) {
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+            }
+        }
+
+        function clearErrors() {
+            const errorElements = document.querySelectorAll('.error-message');
+            errorElements.forEach(element => {
+                element.textContent = '';
+                element.style.display = 'none';
+            });
+        }
+
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+    </script>
+</body>
+</html>

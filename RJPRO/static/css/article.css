@@ -1,0 +1,138 @@
+.article-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.news-article {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+body.dark-mode .news-article {
+    background: var(--dark-surface);
+}
+
+.article-header {
+    margin-bottom: 2rem;
+}
+
+.article-meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.article-date {
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+body.dark-mode .article-date {
+    color: var(--dark-text-secondary);
+}
+
+.category-tag {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: #f3f4f6;
+    color: #4b5563;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    margin-right: 0.5rem;
+}
+
+body.dark-mode .category-tag {
+    background: var(--dark-surface-secondary);
+    color: var(--dark-text-secondary);
+}
+
+.article-title {
+    font-size: 2.25rem;
+    line-height: 1.2;
+    color: #111827;
+    margin: 0;
+}
+
+body.dark-mode .article-title {
+    color: var(--dark-text);
+}
+
+.article-image {
+    margin-bottom: 2rem;
+}
+
+.article-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.article-content {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: #374151;
+}
+
+.article-content h1 {
+    font-size: 2rem;
+    margin: 2rem 0 1rem;
+}
+
+.article-content h2 {
+    font-size: 1.5rem;
+    margin: 1.5rem 0 1rem;
+    color: #1f2937;
+}
+
+.article-content h3 {
+    font-size: 1.25rem;
+    margin: 1.25rem 0 0.75rem;
+    color: #374151;
+}
+
+.article-content p {
+    margin: 1rem 0;
+}
+
+.article-content ul, 
+.article-content ol {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+}
+
+.article-content li {
+    margin: 0.5rem 0;
+}
+
+.article-footer {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.back-to-news {
+    display: inline-block;
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.back-to-news:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .article-container {
+        padding: 1rem;
+    }
+
+    .article-title {
+        font-size: 1.75rem;
+    }
+
+    .article-content {
+        font-size: 1rem;
+    }
+}

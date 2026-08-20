@@ -1,0 +1,6 @@
+flask==2.0.1
+flask-cors==3.0.10
+mysql-connector-python==8.0.26
+PyJWT==2.1.0
+PyPDF2==2.10.5
+requests==2.26.0

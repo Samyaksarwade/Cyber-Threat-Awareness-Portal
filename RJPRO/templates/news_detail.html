@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}{{ article.title }} - Cyber Security News{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/news.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/news_detail.css') }}">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="article-container">
+        <article class="news-article">
+            <header class="article-header">
+                <div class="article-meta">
+                    <span class="article-date">{{ article.date }}</span>
+                    <span class="article-categories">
+                        {% for category in article.categories %}
+                            <span class="category-tag">{{ category }}</span>
+                        {% endfor %}
+                    </span>
+                </div>
+                <h1 class="article-title">{{ article.title }}</h1>
+            </header>
+
+            <div class="article-image">
+                <img src="{{ article.image_url }}" alt="{{ article.title }}">
+            </div>
+
+            <div class="article-content">
+                {{ article.content | safe }}
+            </div>
+
+            <footer class="article-footer">
+                <a href="{{ url_for('news_page') }}" class="back-to-news">← Back to News</a>
+            </footer>
+        </article>
+    </div>
+{% endblock %}
