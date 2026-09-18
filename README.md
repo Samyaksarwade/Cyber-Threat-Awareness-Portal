@@ -1,5 +1,3 @@
-Sure — here is a professional **GitHub README.md** for your Cyber Threat Awareness Portal project. You can copy this directly into your repository.
-
 # 🛡️ Cyber Threat Awareness Portal
 
 A web-based **Cyber Threat Awareness Portal** designed to educate users about cybersecurity threats and promote safe online practices. The platform provides learning resources, interactive quizzes, cybersecurity news, and real-time threat information.
